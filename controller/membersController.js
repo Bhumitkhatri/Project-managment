@@ -2,12 +2,13 @@ const members = require('../models/members');
 
 async function getMembersDetails() {
     try {
-        const membersDetails = await members.find();
-        return membersDetails
+        const memberDetails = await members.find();
+        return memberDetails
     } catch (err) {
         return err
     }
 }
+
 async function saveMemberDetails(input) {
     try {
         const members = new members({
