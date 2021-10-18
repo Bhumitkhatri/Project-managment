@@ -12,8 +12,9 @@ routes.get('/project/get', async (req, res) => {
         res.status(400).send(err)
     }
 })
-routes.get('/project/data', async(req,res) => {
-    const project = await projectsController.getProjectData();
+routes.get('/project/data/:id', async(req,res) => {
+    console.log("req.params", req.params);
+    const project = await projectsController.getProjectData(req.params);
     console.log("project", project);
     if (project) {
         res.status(200).json(project)
@@ -23,6 +24,7 @@ routes.get('/project/data', async(req,res) => {
 })
 routes.post('/project/save', async (req, res) => {
     const project = await projectsController.saveProjectDetails(req.body);
+    console.log("project",project);
     if (project) {
         res.status(200).json(project)
     } else {

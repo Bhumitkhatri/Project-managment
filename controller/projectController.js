@@ -10,26 +10,34 @@ async function getProjectDetails() {
     }
 }
 
-async function getProjectData() {
+async function getProjectData(input) {
+   console.log("input", input);
     try {
-        const projectData = await projects.aggregate([{
-            $lookup: {
-                from: "members",
-                localField: "_id",
-                foreignField: "projectId",
-                as: "data"
+        const projectData = await projects.aggregate([
+            {
+                $match: {
+                    _id: "input"
+                }
+            },
+            {
+                $lookup: {
+                    from: "members",
+                    localField: "_id",
+                    foreignField: "projectId",
+                    as: "data"
+                }
             }
-        }]);
+        ]);
         console.log("projects data", projectData);
         return projectData
-        } catch (err) {
-            return err
-        }
-
+    } catch (err) {
+        return err
+    }
 }
 async function saveProjectDetails(input) {
+    console.log("input", input);
     try {
-        const projects = new projects({
+        const newProject = new projects({
             name: input.name,
             clientName: input.clientName,
             startDate: input.startDate,
@@ -38,7 +46,8 @@ async function saveProjectDetails(input) {
             description: input.description,
             status: input.status
         })
-        const projectDetails = await projects.save()
+        const projectDetails = await newProject.save()
+        console.log("projectDetails", projectDetails);
         return projectDetails
     } catch (err) {
         return err

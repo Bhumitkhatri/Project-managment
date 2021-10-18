@@ -10,8 +10,9 @@ async function getMembersDetails() {
 }
 
 async function saveMemberDetails(input) {
+   console.log("input", input);
     try {
-        const members = new members({
+        const newMember = new members({
             projectId: input.projectId,
             name: input.name,
             email: input.email,
@@ -23,7 +24,8 @@ async function saveMemberDetails(input) {
             reportingTo: input.reportingTo
         })
 
-        const memberDetails = await members.save()
+        const memberDetails = await newMember.save()
+        console.log("memberDetails", memberDetails)
         return memberDetails
     } catch (err) {
         return err

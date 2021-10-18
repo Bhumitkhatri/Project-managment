@@ -14,7 +14,8 @@ routes.get('/member/get', async (req,res)=>{
 })
 
 routes.post('/member/save', async (req,res)=>{
-    const members = await membersController.saveMembersDetails(req.body);
+    const members = await membersController.saveMemberDetails(req.body);
+    console.log("members", members);
     if(members){
         res.status(200).json(members)
     }else {
@@ -23,7 +24,7 @@ routes.post('/member/save', async (req,res)=>{
 })
 
 routes.patch('/member/update/:id', async (req, res) =>{
-    const newDetails = await membersController.updateMembersDetails(req.body,req.params.id);
+    const newDetails = await membersController.updateMemberDetails(req.body,req.params.id);
 
     if (newDetails){
         res.json(newDetails)

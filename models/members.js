@@ -3,8 +3,8 @@ const mongoose = require('mongoose');
 const membersSchema = new mongoose.Schema({
 
     projectId: {
-        type: String,
-        required: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'projects'
     },
 
     name: {
@@ -37,7 +37,7 @@ const membersSchema = new mongoose.Schema({
         required: true
     },
 
-    dob:{
+    dob: {
         type: Date,
         required: true
     },
@@ -49,4 +49,4 @@ const membersSchema = new mongoose.Schema({
 
 })
 
-module.exports = mongoose.model('members',membersSchema);
+module.exports = mongoose.model('members', membersSchema);
