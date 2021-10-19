@@ -24,7 +24,7 @@ routes.get('/project/data/:id', async(req,res) => {
 })
 routes.post('/project/save', async (req, res) => {
     const project = await projectsController.saveProjectDetails(req.body);
-    console.log("project",project);
+    console.log("project", project);
     if (project) {
         res.status(200).json(project)
     } else {
