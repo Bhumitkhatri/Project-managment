@@ -1,5 +1,6 @@
 const projects = require('../models/project');
 const members = require('../models/members');
+const mongoose = require('mongoose');
 
 async function getProjectDetails() {
     try {
@@ -11,12 +12,12 @@ async function getProjectDetails() {
 }
 
 async function getProjectData(input) {
-   console.log("input", input);
+
     try {
         const projectData = await projects.aggregate([
             {
                 $match: {
-                    _id: "input"
+                    _id: mongoose.Types.ObjectId(input)
                 }
             },
             {
@@ -28,26 +29,23 @@ async function getProjectData(input) {
                 }
             }
         ]);
-        console.log("projects data", projectData);
         return projectData
     } catch (err) {
         return err
     }
 }
 async function saveProjectDetails(input) {
-    console.log("input", input);
     try {
         const newProject = new projects({
             name: input.name,
             clientName: input.clientName,
             startDate: input.startDate,
             lastDate: input.lastDate,
-            totalMembers: input.totalMembers,
+            totalMembers: input.totalMembers + 1,
             description: input.description,
             status: input.status
         })
         const projectDetails = await newProject.save()
-        console.log("projectDetails", projectDetails);
         return projectDetails
     } catch (err) {
         return err

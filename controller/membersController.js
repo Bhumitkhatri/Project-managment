@@ -1,5 +1,5 @@
 const members = require('../models/members');
-
+const projects = require('../models/project');
 async function getMembersDetails() {
     try {
         const memberDetails = await members.find();
@@ -10,7 +10,6 @@ async function getMembersDetails() {
 }
 
 async function saveMemberDetails(input) {
-   console.log("input", input);
     try {
         const newMember = new members({
             projectId: input.projectId,
@@ -25,7 +24,9 @@ async function saveMemberDetails(input) {
         })
 
         const memberDetails = await newMember.save()
-        console.log("memberDetails", memberDetails)
+        if (memberDetails){
+            if()
+        }
         return memberDetails
     } catch (err) {
         return err

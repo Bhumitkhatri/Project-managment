@@ -15,7 +15,6 @@ routes.get('/member/get', async (req,res)=>{
 
 routes.post('/member/save', async (req,res)=>{
     const members = await membersController.saveMemberDetails(req.body);
-    console.log("members", members);
     if(members){
         res.status(200).json(members)
     }else {
