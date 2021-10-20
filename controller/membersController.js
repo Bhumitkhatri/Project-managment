@@ -24,7 +24,10 @@ async function saveMemberDetails(input) {
             dob: input.dob,
             reportingTo: input.reportingTo
         })
-
+        const membersData = await members.find({email: input.email})
+        if(membersData.length){
+            return ("email already exists")
+        }
         const memberDetails = await newMember.save()
         if (memberDetails) {
             async function project() {
@@ -40,9 +43,14 @@ async function saveMemberDetails(input) {
             }
             project();
         } else {
-            return `total members don't get increased`
+            return ("total members don't get increased")
+        }
+        {
+            res.status(400)
+            return res.json({ error: "email is required..." })
         }
         return memberDetails
+
     } catch (err) {
         return err
     }
