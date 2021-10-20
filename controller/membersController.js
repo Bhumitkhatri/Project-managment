@@ -1,5 +1,7 @@
 const members = require('../models/members');
 const projects = require('../models/project');
+const mongoose = require('mongoose');
+
 async function getMembersDetails() {
     try {
         const memberDetails = await members.find();
@@ -24,8 +26,21 @@ async function saveMemberDetails(input) {
         })
 
         const memberDetails = await newMember.save()
-        if (memberDetails){
-            if()
+        if (memberDetails) {
+            async function project() {
+                const projectDetails = await projects.aggregate([
+                    {
+                        $match: {
+                            _id: mongoose.Types.ObjectId(input.projectId)
+                        }
+                    }
+                ])
+                const updateProjectDetails = await projects.updateOne({ _id: input.projectId }, { $set: { totalMembers: projectDetails[0].totalMembers + 1 } })
+                return projectDetails
+            }
+            project();
+        } else {
+            return `total members don't get increased`
         }
         return memberDetails
     } catch (err) {
