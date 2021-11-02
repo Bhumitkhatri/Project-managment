@@ -1,10 +1,10 @@
 const mongoose = require('mongoose');
-
 const membersSchema = new mongoose.Schema({
 
     projectId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'projects'
+        ref: 'projects',
+        required: true
     },
 
     name: {
@@ -14,7 +14,8 @@ const membersSchema = new mongoose.Schema({
 
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
 
     startDate: {
@@ -28,8 +29,11 @@ const membersSchema = new mongoose.Schema({
     },
 
     contact: {
-        type: String,
-        required: true
+        type: Number,
+        required: true,
+        unique: true,
+        min: 1000000000,
+        max: 9999999999
     },
 
     gender: {

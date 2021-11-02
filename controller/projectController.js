@@ -10,7 +10,6 @@ async function getProjectDetails() {
         return err
     }
 }
-
 async function getProjectData(input) {
 
     try {
@@ -41,7 +40,7 @@ async function saveProjectDetails(input) {
             clientName: input.clientName,
             startDate: input.startDate,
             lastDate: input.lastDate,
-            totalMembers: input.totalMembers + 1,
+            totalMembers: input.totalMembers,
             description: input.description,
             status: input.status
         })
@@ -53,6 +52,7 @@ async function saveProjectDetails(input) {
 }
 
 async function updateProjectDetails(input, _id) {
+    if( !mongoose.Types.ObjectId.isValid(_id) ) return false;
     try {
         const dataToUpdateDetails = {
             name: input.name,
@@ -63,8 +63,11 @@ async function updateProjectDetails(input, _id) {
             description: input.description,
             status: input.status
         };
-        const updateProjectDetails = await projects.updateOne({ _id: _id }, dataToUpdateDetails, { new: true })
-        return updateProjectDetails
+        const updateProjectDetail = await projects.updateOne({ _id: _id }, dataToUpdateDetails, { new: true })
+        if(updateProjectDetail.modifiedCount > 0){
+            return updateProjectDetail;
+        } else
+        return false;
     } catch (err) {
         return err
     }

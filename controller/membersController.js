@@ -5,9 +5,20 @@ const mongoose = require('mongoose');
 async function getMembersDetails() {
     try {
         const memberDetails = await members.find();
-        return memberDetails
+        return memberDetails;
     } catch (err) {
-        return err
+        return err;
+    }
+}
+async function getMembersData(membersProjectId, queryData) {
+    try {
+        const membersData = await members.find({
+            projectId: mongoose.Types.ObjectId(membersProjectId),
+            startDate: { $lt: new Date(queryData.startDate) }
+        });
+        return membersData;
+    } catch (err) {
+        return err;
     }
 }
 
@@ -24,39 +35,26 @@ async function saveMemberDetails(input) {
             dob: input.dob,
             reportingTo: input.reportingTo
         })
-        const membersData = await members.find({email: input.email})
-        if(membersData.length){
-            return ("email already exists")
+        const membersData = await members.find({ email: input.email })
+        if (membersData.length) {
+            return ("email already exists");
         }
         const memberDetails = await newMember.save()
         if (memberDetails) {
-            async function project() {
-                const projectDetails = await projects.aggregate([
-                    {
-                        $match: {
-                            _id: mongoose.Types.ObjectId(input.projectId)
-                        }
-                    }
-                ])
-                const updateProjectDetails = await projects.updateOne({ _id: input.projectId }, { $set: { totalMembers: projectDetails[0].totalMembers + 1 } })
-                return projectDetails
-            }
-            project();
+            const projectDetails = await projects.find({ _id: input.projectId })
+            const updateProjectDetails = await projects.updateOne({ _id: input.projectId }, { $set: { totalMembers: projectDetails[0].totalMembers + 1 } })
+            return projectDetails;
         } else {
-            return ("total members don't get increased")
+            return ("total members don't get increased");
         }
-        {
-            res.status(400)
-            return res.json({ error: "email is required..." })
-        }
-        return memberDetails
 
     } catch (err) {
-        return err
+        return err;
     }
 }
 
 async function updateMemberDetails(input, _id) {
+    if( !mongoose.Types.ObjectId.isValid(_id) ) return false;
     try {
         const dataToUpdateDetails = {
             name: input.name,
@@ -67,19 +65,32 @@ async function updateMemberDetails(input, _id) {
             profile: input.profile,
             dob: input.dob
         };
-        const updateMemberDetails = await members.updateOne({ _id: _id }, dataToUpdateDetails, { new: true })
-        return updateMemberDetails
+        const updateMemberDetail = await members.updateOne({ _id: _id }, dataToUpdateDetails, { new: true })
+        if(updateMemberDetail.modifiedCount > 0){
+            return updateMemberDetail;
+        } else
+        return false;
     } catch (err) {
-        return err
+        return err;
     }
 }
 
 async function deleteMemberDetails(_id) {
     try {
-        const deleteMemberDetails = await members.remove({ _id: _id })
-        return deleteMemberDetails
-    } catch (err) {
-        return err
+        const membersData = await members.findOne({ _id: _id })
+        const deleteMemberDetails = await members.deleteOne({ _id: _id })
+        const projectId = membersData.projectId
+        if (deleteMemberDetails) {
+            const projectDetails = await projects.find({ _id: projectId })
+            const updateProjectDetails = await projects.updateOne({ _id: projectId }, { $set: { totalMembers: projectDetails[0].totalMembers - 1 } })
+            return projectDetails;
+        }
+        else {
+            return ("total members don't get decrease");
+        }
+    }
+    catch (err) {
+        return err;
     }
 }
-module.exports = { getMembersDetails, saveMemberDetails, updateMemberDetails, deleteMemberDetails }
+module.exports = { getMembersDetails, getMembersData, saveMemberDetails, updateMemberDetails, deleteMemberDetails }
