@@ -54,7 +54,7 @@ async function saveMemberDetails(input) {
 }
 
 async function updateMemberDetails(input, _id) {
-    if( !mongoose.Types.ObjectId.isValid(_id) ) return false;
+    if (!mongoose.Types.ObjectId.isValid(_id)) return false;
     try {
         const dataToUpdateDetails = {
             name: input.name,
@@ -66,10 +66,10 @@ async function updateMemberDetails(input, _id) {
             dob: input.dob
         };
         const updateMemberDetail = await members.updateOne({ _id: _id }, dataToUpdateDetails, { new: true })
-        if(updateMemberDetail.modifiedCount > 0){
+        if (updateMemberDetail.modifiedCount > 0) {
             return updateMemberDetail;
         } else
-        return false;
+            return false;
     } catch (err) {
         return err;
     }
