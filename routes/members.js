@@ -10,13 +10,12 @@ routes.get('/member/get', async (req, res) => {
     if (members) {
         res.status(200).json(members)
     } else {
-        res.status(400).send("No data found")
+        res.status(404).send("No data found")
     }
 })
 
 routes.get('/member/data/:id', async (req, res) => {
     const member = await membersController.getMembersData(req.params.id, req.query);
-    console.log(member, "member")
     if (member.length) {
         res.status(200).json(member)
     } else {
@@ -51,11 +50,11 @@ routes.patch('/member/update/:id', async (req, res) => {
 routes.delete('/member/delete/:id', async (req, res) => {
     const deleteMember = await membersController.deleteMemberDetails(req.params.id);
 
-    if (deleteMember) {
+    if (deleteMember.length) {
         res.json(deleteMember)
     }
     else {
-        res.status(400).send("selected member has not deleted")
+        res.status(404).send("selected member not found")
     }
 })
 

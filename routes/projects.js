@@ -9,7 +9,7 @@ routes.get('/project/get', async (req, res) => {
     if (project) {
         res.status(200).json(project)
     } else {
-        res.status(400).send("No data found")
+        res.status(404).send("No data found")
     }
 })
 routes.get('/project/data/:id', async(req,res) => {
@@ -42,11 +42,11 @@ routes.patch('/project/update/:id', async (req, res) => {
 routes.delete('/project/delete/:id', async (req, res) => {
     const deleteProject = await projectsController.deleteProjectDetails(req.params.id);
 
-    if (deleteProject) {
+    if (deleteProject.length) {
         res.status(200).json(deleteProject)
     }
     else {
-        res.status(400).send("Project not deleted")
+        res.status(404).send("Project not found")
     }
 })
 module.exports = routes;
