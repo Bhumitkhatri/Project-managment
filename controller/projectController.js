@@ -44,15 +44,19 @@ async function saveProjectDetails(input) {
             description: input.description,
             status: input.status
         })
-        const projectDetails = await newProject.save()
-        return projectDetails
+        if (input.startDate > input.lastDate) {
+            return `start Date must be less than last Date`
+        } else {
+            const projectDetails = await newProject.save()
+            return projectDetails
+        }
     } catch (err) {
         return err
     }
 }
 
 async function updateProjectDetails(input, _id) {
-    if( !mongoose.Types.ObjectId.isValid(_id) ) return false;
+    if (!mongoose.Types.ObjectId.isValid(_id)) return false;
     try {
         const dataToUpdateDetails = {
             name: input.name,
@@ -64,10 +68,10 @@ async function updateProjectDetails(input, _id) {
             status: input.status
         };
         const updateProjectDetail = await projects.updateOne({ _id: _id }, dataToUpdateDetails, { new: true })
-        if(updateProjectDetail.modifiedCount > 0){
+        if (updateProjectDetail.modifiedCount > 0) {
             return updateProjectDetail;
         } else
-        return false;
+            return false;
     } catch (err) {
         return err
     }

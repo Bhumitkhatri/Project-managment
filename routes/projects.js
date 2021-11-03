@@ -16,7 +16,8 @@ routes.get('/project/data/:id', async(req,res) => {
     const project = await projectsController.getProjectData(req.params.id);
     if (project.length) {
         res.status(200).json(project)
-    } else {
+    }
+    else {
         res.status(404).send("No data found")
     }
 })
@@ -27,6 +28,7 @@ routes.post('/project/save', async (req, res) => {
     } else {
         res.status(400).send("Project not saved")
     }
+
 })
 
 routes.patch('/project/update/:id', async (req, res) => {

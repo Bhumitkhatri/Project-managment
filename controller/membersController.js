@@ -39,15 +39,20 @@ async function saveMemberDetails(input) {
         if (membersData.length) {
             return ("email already exists");
         }
-        const memberDetails = await newMember.save()
-        if (memberDetails) {
+        const projectDetail = await projects.findOne({ _id: input.projectId })
+        console.log("projectDetail", projectDetail);
+        console.log("projectDetailS", projectDetail.startDate)
+        console.log("projectDetailL", projectDetail.lastDate);
+        var toUTC = new Date(input.startDate)
+        console.log("toUTC", toUTC);
+        if (toUTC > projectDetail.startDate && toUTC < projectDetail.lastDate) {
+            const memberDetails = await newMember.save()
             const projectDetails = await projects.find({ _id: input.projectId })
             const updateProjectDetails = await projects.updateOne({ _id: input.projectId }, { $set: { totalMembers: projectDetails[0].totalMembers + 1 } })
-            return projectDetails;
+            return memberDetails;
         } else {
-            return ("total members don't get increased");
+            return ("start date should be between project start Date and last date");
         }
-
     } catch (err) {
         return err;
     }

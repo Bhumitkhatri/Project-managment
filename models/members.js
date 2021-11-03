@@ -38,6 +38,7 @@ const membersSchema = new mongoose.Schema({
 
     gender: {
         type: String,
+        enum: ['Male','Female'],
         required: true
     },
 

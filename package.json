@@ -12,6 +12,7 @@
     "body-parser": "^1.19.0",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
+    "moment": "^2.29.1",
     "mongoose": "^6.0.9",
     "phone": "^3.1.8",
     "validator": "^13.7.0"
