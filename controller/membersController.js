@@ -40,11 +40,7 @@ async function saveMemberDetails(input) {
             return ("email already exists");
         }
         const projectDetail = await projects.findOne({ _id: input.projectId })
-        console.log("projectDetail", projectDetail);
-        console.log("projectDetailS", projectDetail.startDate)
-        console.log("projectDetailL", projectDetail.lastDate);
         var toUTC = new Date(input.startDate)
-        console.log("toUTC", toUTC);
         if (toUTC > projectDetail.startDate && toUTC < projectDetail.lastDate) {
             const memberDetails = await newMember.save()
             const projectDetails = await projects.find({ _id: input.projectId })
