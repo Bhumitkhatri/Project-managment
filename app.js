@@ -14,6 +14,9 @@ app.use('/', membersRoutes);
 const projectsRoutes = require('./routes/projects');
 app.use('/', projectsRoutes);
 
+const taskRoutes = require('./routes/tasks');
+app.use('/', taskRoutes);
+
 app.listen(3000, ()=>{
     console.log("Server is up and running at port: 3000");
 });

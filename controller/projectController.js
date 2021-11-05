@@ -45,7 +45,7 @@ async function saveProjectDetails(input) {
             status: input.status
         })
         if (input.startDate > input.lastDate) {
-            return `start Date must be less than last Date`
+            return ("start Date must be less than last Date")
         } else {
             const projectDetails = await newProject.save()
             return projectDetails
