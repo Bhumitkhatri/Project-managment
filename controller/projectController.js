@@ -28,9 +28,9 @@ async function getProjectData(input) {
                 }
             }
         ]);
-        return projectData
+        return projectData;
     } catch (err) {
-        return err
+        return err;
     }
 }
 async function saveProjectDetails(input) {
@@ -80,9 +80,9 @@ async function updateProjectDetails(input, _id) {
 async function deleteProjectDetails(_id) {
     try {
         const deleteProjectDetails = await projects.remove({ _id: _id })
-        return deleteProjectDetails
+        return deleteProjectDetails;
     } catch (err) {
-        return err
+        return err;
     }
 }
 

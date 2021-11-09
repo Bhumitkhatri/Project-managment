@@ -2,6 +2,12 @@ const mongoose = require('mongoose');
 
 const taskSchema = new mongoose.Schema({
 
+    project: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'projects',
+        required: true
+    },
+
     title: {
         type: String,
         required: true

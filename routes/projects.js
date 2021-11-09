@@ -43,7 +43,6 @@ routes.patch('/project/update/:id', async (req, res) => {
 
 routes.delete('/project/delete/:id', async (req, res) => {
     const deleteProject = await projectsController.deleteProjectDetails(req.params.id);
-
     if (deleteProject.length) {
         res.status(200).json(deleteProject)
     }
