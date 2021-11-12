@@ -9,11 +9,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
     "email-validator": "^2.0.4",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "moment": "^2.29.1",
-    "mongoose": "^6.0.9",
+    "mongoose": "^6.0.12",
     "phone": "^3.1.8",
     "validator": "^13.7.0"
   }

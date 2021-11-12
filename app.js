@@ -1,6 +1,7 @@
 const express = require('express');
 
 const app = express();
+const auth = require("./middleware/auth");
 
 const dbConnection = require('./database/mongoConn');
 
@@ -16,6 +17,12 @@ app.use('/', projectsRoutes);
 
 const taskRoutes = require('./routes/tasks');
 app.use('/', taskRoutes);
+
+const loginRoutes = require('./routes/login');
+app.use('/',loginRoutes);
+
+const userRoutes = require('./routes/users');
+app.use('/', userRoutes);
 
 app.listen(3000, ()=>{
     console.log("Server is up and running at port: 3000");
